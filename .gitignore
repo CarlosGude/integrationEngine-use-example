@@ -1,0 +1,32 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> ide ###
+/.idea/
+/.vscode/
+*.iml
+*.ipr
+*.iws
+###< ide ###
+
+###> macos ###
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+###< macos ###
+
+###> composer ###
+/composer.lock
+###< composer ###
+
+###> logs ###
+*.log
+###< logs ###
