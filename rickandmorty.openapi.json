@@ -1,0 +1,129 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Rick and Morty API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://rickandmortyapi.com/api"
+        }
+    ],
+    "paths": {
+        "/character": {
+            "get": {
+                "operationId": "listCharacters",
+                "responses": {
+                    "200": {
+                        "description": "Characters list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "info": {
+                                            "type": "object",
+                                            "properties": {
+                                                "count": { "type": "integer" },
+                                                "pages": { "type": "integer" },
+                                                "next": { "type": "string" },
+                                                "prev": { "type": "string" }
+                                            }
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "integer" },
+                                                    "name": { "type": "string" },
+                                                    "status": { "type": "string" },
+                                                    "species": { "type": "string" },
+                                                    "type": { "type": "string" },
+                                                    "gender": { "type": "string" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/character/{id}": {
+            "get": {
+                "operationId": "getCharacter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Single character",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "integer" },
+                                        "name": { "type": "string" },
+                                        "status": { "type": "string" },
+                                        "species": { "type": "string" },
+                                        "origin": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": { "type": "string" },
+                                                "url": { "type": "string" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/location": {
+            "get": {
+                "operationId": "listLocations",
+                "responses": {
+                    "200": {
+                        "description": "Locations list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "integer" },
+                                                    "name": { "type": "string" },
+                                                    "type": { "type": "string" },
+                                                    "dimension": { "type": "string" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

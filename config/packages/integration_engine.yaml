@@ -1,0 +1,5 @@
+integration_engine:
+    integrations:
+        dummy_rest_api:
+            base_url: 'https://dummy.restapiexample.com'
+            config_path: '%kernel.project_dir%/src/Infrastructure/Integrations/DummyRestApi/DummyRestApi.yaml'

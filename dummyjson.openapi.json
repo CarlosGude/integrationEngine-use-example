@@ -1,0 +1,144 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "DummyJSON API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://dummyjson.com"
+        }
+    ],
+    "paths": {
+        "/products": {
+            "get": {
+                "operationId": "listProducts",
+                "summary": "Get all products",
+                "responses": {
+                    "200": {
+                        "description": "List of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "integer" },
+                                                    "title": { "type": "string" },
+                                                    "price": { "type": "number" },
+                                                    "category": { "type": "string" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id": {
+            "get": {
+                "operationId": "getProduct",
+                "summary": "Get product by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Single product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "integer" },
+                                        "title": { "type": "string" },
+                                        "description": { "type": "string" },
+                                        "price": { "type": "number" },
+                                        "stock": { "type": "integer" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "operationId": "listUsers",
+                "summary": "Get all users",
+                "responses": {
+                    "200": {
+                        "description": "List users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "users": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "integer" },
+                                                    "firstName": { "type": "string" },
+                                                    "lastName": { "type": "string" },
+                                                    "email": { "type": "string" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/carts": {
+            "get": {
+                "operationId": "listCarts",
+                "summary": "Get carts",
+                "responses": {
+                    "200": {
+                        "description": "List carts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "carts": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "integer" },
+                                                    "total": { "type": "number" },
+                                                    "totalProducts": { "type": "integer" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
