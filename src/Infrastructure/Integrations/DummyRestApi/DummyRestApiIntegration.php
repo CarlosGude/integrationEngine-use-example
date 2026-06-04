@@ -26,27 +26,23 @@ final class DummyRestApiIntegration implements IntegrationName
         $this->integrationEngine = $registry->get(self::NAME);
     }
 
-    public function getEmployees(): ?GetEmployeesResponse
+    public function getEmployees(): GetEmployeesResponse
     {
         $response = $this->integrationEngine->send(GetEmployeesAction::getName());
 
-        if (!$response instanceof GetEmployeesResponse) {
-            throw new \RuntimeException('Invalid response');
-        }
+        \assert($response instanceof GetEmployeesResponse);
 
         return $response;
     }
 
-    public function getEmployee(int $id): ?GetEmployeeResponse
+    public function getEmployee(int $id): GetEmployeeResponse
     {
         $response = $this->integrationEngine->send(
-            GetEmployeeAction::getName(),
-            GetEmployeeRequestContext::create(['id' => $id])
+            actionName: GetEmployeeAction::getName(),
+            context: GetEmployeeRequestContext::create(['id' => $id])
         );
 
-        if (!$response instanceof GetEmployeeResponse) {
-            throw new \RuntimeException('Invalid response');
-        }
+        \assert($response instanceof GetEmployeeResponse);
 
         return $response;
     }
