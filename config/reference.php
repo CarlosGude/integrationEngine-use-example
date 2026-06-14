@@ -703,10 +703,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type IntegrationEngineConfig = array{
  *     integrations?: array<string, array{ // Default: []
- *         config_path?: scalar|Param|null, // Path to the YAML file defining the actions. Defaults to {base_path}/{IntegrationName}/{IntegrationName}.yaml resolved at compile time by IntegrationCompilerPass. // Default: null
- *         base_path?: scalar|Param|null, // Base filesystem path used to resolve config_path when it is not set explicitly. // Default: null
+ *         config_path?: scalar|Param|null, // Absolute path to the YAML file defining the actions for this integration. // Default: null
  *         base_url?: scalar|Param|null, // Base URL for the built-in SymfonyHttpClientAdapter. Required unless client_service is set. // Default: null
- *         client_service?: scalar|Param|null, // Custom ClientInterface service ID. Overrides base_url if set. // Default: null
+ *         client_service?: scalar|Param|null, // Custom ClientInterface service ID. Overrides base_url and client if set. // Default: null
+ *         client?: scalar|Param|null, // Client type to use: "rest" (default) or "graphql". Ignored when client_service is set. // Default: "rest"
  *         cache_service?: scalar|Param|null, // Custom CachePort service ID. Defaults to InMemoryCacheAdapter. // Default: null
  *         headers?: array<string, scalar|Param|null>,
  *     }>,

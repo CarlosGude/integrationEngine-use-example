@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f6e844eff8f71923c21b87d59e256ca",
+    "content-hash": "5cf49c21efde573a2e52f0e1a95decab",
     "packages": [
         {
             "name": "carlosgude/integration-engine",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../integrationEngine",
-                "reference": "0df61cbffa69422ee7e8d4381627bddfc3312337"
+                "reference": "e9034090c6137e50c647377080e32527106901a7"
             },
             "require": {
                 "php": ">=8.2",
@@ -4987,9 +4987,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "carlosgude/integration-engine": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -4997,6 +4995,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }

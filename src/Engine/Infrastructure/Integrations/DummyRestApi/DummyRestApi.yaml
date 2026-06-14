@@ -1,0 +1,14 @@
+GetEmployees:
+    action: App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployees\Request\GetEmployeesAction
+    method: GET
+    path: /api/v1/employees
+
+GetEmployee:
+    action: App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployee\Request\GetEmployeeAction
+    method: GET
+    path: /api/v1/employee/{id}
+
+CreateEmployee:
+    action: App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Request\CreateEmployeeAction
+    method: POST
+    path: /api/v1/create
