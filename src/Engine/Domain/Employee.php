@@ -16,10 +16,10 @@ final readonly class Employee
     public function toArray(): array
     {
         return [
-            'id'     => $this->id,
-            'name'   => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'salary' => $this->salary,
-            'age'    => $this->age,
+            'age' => $this->age,
         ];
     }
 }

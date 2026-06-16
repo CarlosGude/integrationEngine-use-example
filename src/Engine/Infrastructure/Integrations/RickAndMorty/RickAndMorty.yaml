@@ -1,0 +1,3 @@
+GetCharacter:
+    action: App\Engine\Infrastructure\Integrations\RickAndMorty\GetCharacter\Request\GetCharacterAction
+    body: App\Engine\Infrastructure\Integrations\RickAndMorty\GetCharacter\Request\GetCharacterBody

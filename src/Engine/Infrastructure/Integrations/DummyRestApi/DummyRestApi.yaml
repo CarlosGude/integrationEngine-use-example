@@ -12,3 +12,9 @@ CreateEmployee:
     action: App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Request\CreateEmployeeAction
     method: POST
     path: /api/v1/create
+    body: App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Request\CreateEmployeeBody
+
+DeleteEmployee:
+    action: App\Engine\Infrastructure\Integrations\DummyRestApi\DeleteEmployee\Request\DeleteEmployeeAction
+    method: DELETE
+    path: /api/v1/delete/{id}

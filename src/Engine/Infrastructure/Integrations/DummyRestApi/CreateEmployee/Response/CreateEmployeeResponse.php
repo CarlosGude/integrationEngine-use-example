@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Response;
 
+use App\Engine\Infrastructure\Integrations\DummyRestApi\Dto\Employee;
 use IntegrationEngine\Core\Contract\Response\ResponseInterface;
 
 final readonly class CreateEmployeeResponse implements ResponseInterface
 {
-    public function __construct(
-        public int $id,
-        public string $name,
-        public int $salary,
-        public int $age,
-    ) {}
+    private function __construct(public readonly Employee $employee) {}
+
+    public static function create(Employee $employee): self
+    {
+        return new self($employee);
+    }
 
     public function toArray(): array
     {
-        return [
-            'id'     => $this->id,
-            'name'   => $this->name,
-            'salary' => $this->salary,
-            'age'    => $this->age,
-        ];
+        return $this->employee->toArray();
     }
 }

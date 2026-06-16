@@ -7,18 +7,19 @@ namespace App\Engine\Infrastructure\Integrations\DummyRestApi;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Request\CreateEmployeeAction;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Request\CreateEmployeeBody;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\CreateEmployee\Response\CreateEmployeeResponse;
+use App\Engine\Infrastructure\Integrations\DummyRestApi\DeleteEmployee\Request\DeleteEmployeeAction;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployee\Request\GetEmployeeAction;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployee\Response\GetEmployeeResponse;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployees\Request\GetEmployeesAction;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployees\Response\GetEmployeesResponse;
+use IntegrationEngine\Core\Batch\BatchResultCollection;
 use IntegrationEngine\Core\Batch\EngineRequest;
 use IntegrationEngine\Core\Contract\Action\DefaultActionContext;
-use IntegrationEngine\Core\Contract\Response\ResponseInterface;
 use IntegrationEngine\Core\IntegrationEngine;
 use IntegrationEngine\Core\Registry\IntegrationName;
 use IntegrationEngine\Core\Registry\IntegrationRegistry;
 
-final class DummyRestApiIntegration implements IntegrationName
+class DummyRestApiIntegration implements IntegrationName
 {
     public const string NAME = 'dummy_rest_api';
 
@@ -55,9 +56,9 @@ final class DummyRestApiIntegration implements IntegrationName
         $response = $this->engine->send(
             actionName: CreateEmployeeAction::getName(),
             body: CreateEmployeeBody::create([
-                'name'   => $name,
+                'name' => $name,
                 'salary' => (string) $salary,
-                'age'    => (string) $age,
+                'age' => (string) $age,
             ]),
         );
 
@@ -67,10 +68,10 @@ final class DummyRestApiIntegration implements IntegrationName
     }
 
     /**
-     * Concurrent batch — all requests are dispatched simultaneously.
+     * Concurrent batch (fail-fast) — throws on the first failed request.
      * Total time ≈ the slowest single request, not the sum of all.
      *
-     * @return array<int, ResponseInterface>
+     * @return array<int, GetEmployeeResponse>
      */
     public function getManyEmployees(int ...$ids): array
     {
@@ -82,6 +83,32 @@ final class DummyRestApiIntegration implements IntegrationName
             );
         }
 
+        /** @var array<int, GetEmployeeResponse> */
         return $this->engine->sendManyOrFail($requests);
+    }
+
+    public function deleteEmployee(int $id): void
+    {
+        $this->engine->send(
+            actionName: DeleteEmployeeAction::getName(),
+            context: DefaultActionContext::create(['id' => $id]),
+        );
+    }
+
+    /**
+     * Concurrent batch (tolerant) — individual failures don't abort the rest.
+     * Returns a BatchResultCollection with both successes and errors keyed by ID.
+     */
+    public function getManyEmployeesTolerant(int ...$ids): BatchResultCollection
+    {
+        $requests = [];
+        foreach ($ids as $id) {
+            $requests[$id] = EngineRequest::create(
+                actionName: GetEmployeeAction::getName(),
+                context: DefaultActionContext::create(['id' => $id]),
+            );
+        }
+
+        return $this->engine->sendMany($requests);
     }
 }

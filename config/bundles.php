@@ -1,9 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use IntegrationEngine\Bundle\IntegrationEngineBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\MakerBundle\MakerBundle;
+
 return [
-    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
-    IntegrationEngine\Bundle\IntegrationEngineBundle::class => ['all' => true],
-    Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
-    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
-    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    FrameworkBundle::class => ['all' => true],
+    IntegrationEngineBundle::class => ['all' => true],
+    MakerBundle::class => ['dev' => true],
+    DoctrineBundle::class => ['all' => true],
+    DoctrineMigrationsBundle::class => ['all' => true],
 ];

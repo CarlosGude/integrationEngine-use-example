@@ -1,0 +1,29 @@
+# Spotify Web API — see FetchTokenAction for demo notes on the form-encoded limitation.
+
+FetchToken:
+    action: App\Engine\Infrastructure\Integrations\Spotify\FetchToken\Request\FetchTokenAction
+    method: POST
+    path: /api/token
+    authorization:
+        type: basic
+        token: '%env(SPOTIFY_CREDENTIALS)%'
+
+GetArtist:
+    action: App\Engine\Infrastructure\Integrations\Spotify\GetArtist\Request\GetArtistAction
+    method: GET
+    path: /v1/artists/{id}
+    authorization:
+        type: dynamic
+        action: FetchToken
+        token_field: access_token
+        ttl: 3600
+
+GetArtistTopTracks:
+    action: App\Engine\Infrastructure\Integrations\Spotify\GetArtistTopTracks\Request\GetArtistTopTracksAction
+    method: GET
+    path: /v1/artists/{id}/top-tracks?market=ES
+    authorization:
+        type: dynamic
+        action: FetchToken
+        token_field: access_token
+        ttl: 3600

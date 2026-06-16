@@ -3,3 +3,12 @@ integration_engine:
         dummy_rest_api:
             base_url: 'https://dummy.restapiexample.com'
             config_path: '%kernel.project_dir%/src/Engine/Infrastructure/Integrations/DummyRestApi/DummyRestApi.yaml'
+
+        spotify:
+            base_url: 'https://api.spotify.com'
+            config_path: '%kernel.project_dir%/src/Engine/Infrastructure/Integrations/Spotify/Spotify.yaml'
+
+        rick_and_morty:
+            base_url: 'https://rickandmortyapi.com/graphql'
+            client: graphql
+            config_path: '%kernel.project_dir%/src/Engine/Infrastructure/Integrations/RickAndMorty/RickAndMorty.yaml'

@@ -1,11 +1,5 @@
-traditional_controllers:
-    resource:
-        path: ../src/Traditional/Controller/
-        namespace: App\Traditional\Controller
-    type: attribute
-
 engine_controllers:
     resource:
-        path: ../src/Engine/Controller/
-        namespace: App\Engine\Controller
+        path: ../src/Engine/Application/Ports/
+        namespace: App\Engine\Application\Ports
     type: attribute

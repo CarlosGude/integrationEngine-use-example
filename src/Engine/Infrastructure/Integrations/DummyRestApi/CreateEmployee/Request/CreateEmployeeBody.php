@@ -17,18 +17,18 @@ final readonly class CreateEmployeeBody implements ActionBodyInterface
     public static function create(array $data): self
     {
         return new self(
-            name:   $data['name'],
-            salary: $data['salary'],
-            age:    $data['age'],
+            name: (string) ($data['name'] ?? ''),
+            salary: (string) ($data['salary'] ?? ''),
+            age: (string) ($data['age'] ?? ''),
         );
     }
 
     public function toArray(): array
     {
         return [
-            'name'   => $this->name,
+            'name' => $this->name,
             'salary' => $this->salary,
-            'age'    => $this->age,
+            'age' => $this->age,
         ];
     }
 }

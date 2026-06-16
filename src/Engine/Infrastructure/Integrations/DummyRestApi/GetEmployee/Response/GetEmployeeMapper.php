@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployee\Response;
 
-use App\Engine\Infrastructure\Integrations\DummyRestApi\Dtos\Employee;
+use App\Engine\Infrastructure\Integrations\DummyRestApi\Dto\Employee;
 use App\Engine\Infrastructure\Integrations\DummyRestApi\GetEmployee\Request\GetEmployeeAction;
 use IntegrationEngine\Core\Contract\Action\AbstractAction;
 use IntegrationEngine\Core\Contract\Mapper\AbstractMapper;
@@ -19,15 +19,8 @@ final class GetEmployeeMapper extends AbstractMapper
 
     protected static function transform(AbstractAction $action, array $response): ResponseInterface
     {
-        $data = $response['data'];
-
-        return new GetEmployeeResponse(
-            Employee::create(
-                id:     (int) $data['id'],
-                name:   $data['employee_name'],
-                salary: (int) $data['employee_salary'],
-                age:    (int) $data['employee_age'],
-            ),
+        return GetEmployeeResponse::create(
+            Employee::create($response['data'] ?? []),
         );
     }
 }
