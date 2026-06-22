@@ -1,0 +1,4 @@
+GetPost:
+    action: App\Engine\Infrastructure\Integrations\Posts\GetPost\Request\GetPostAction
+    method: GET
+    path: /posts/{id}

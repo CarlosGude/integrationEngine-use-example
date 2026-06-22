@@ -12,3 +12,7 @@ integration_engine:
             base_url: 'https://rickandmortyapi.com/graphql'
             client: graphql
             config_path: '%kernel.project_dir%/src/Engine/Infrastructure/Integrations/RickAndMorty/RickAndMorty.yaml'
+
+        posts:
+            base_url: 'https://jsonplaceholder.typicode.com'
+            config_path: '%kernel.project_dir%/src/Engine/Infrastructure/Integrations/Posts/Posts.yaml'

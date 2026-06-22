@@ -17,8 +17,9 @@ Uses [`carlosgude/integration-engine`](https://packagist.org/packages/carlosgude
 | [DummyRestApi](#dummyrestapi) | REST | None | `send()`, `sendManyOrFail()`, `sendMany()` + `BatchResultCollection`, `ActionBodyInterface`, `EmptyResponse` |
 | [Rick & Morty](#rick--morty-graphql) | GraphQL | None | `GraphQLBodyInterface`, `client: graphql`, concurrent GraphQL batch |
 | [Spotify](#spotify) | REST | Dynamic OAuth2 | `type: dynamic` auth, heterogeneous `sendMany()` |
+| [Posts](#posts-dynamic-base-url) | REST | None | `send(baseUrl: ...)` — base URL resolved per request, not at compile time |
 
-All three follow the same structure. The "what" changes; the pattern does not.
+All four follow the same structure. The "what" changes; the pattern does not.
 
 ---
 
@@ -326,6 +327,62 @@ Infrastructure/SpotifyGateway.php            ← ACL: ArtistProfileResult → Do
 
 ---
 
+## Posts (dynamic base URL)
+
+REST API, no authentication. Shows `IntegrationEngine::send(baseUrl: ...)`: the engine's
+only built-in extension point for an integration that does **not** have one fixed host.
+
+### One configured `base_url`, overridden per request
+
+```yaml
+# integration_engine.yaml
+posts:
+    base_url: 'https://jsonplaceholder.typicode.com'   ← default — used when no $host is passed
+    config_path: '%kernel.project_dir%/src/Engine/Infrastructure/Integrations/Posts/Posts.yaml'
+```
+
+```php
+// PostsIntegration.php
+public function getPost(int $id, ?string $host = null): GetPostResponse
+{
+    $response = $this->engine->send(
+        actionName: GetPostAction::getName(),
+        context: DefaultActionContext::create(['id' => $id]),
+        baseUrl: $host,    ← null keeps the configured base_url; any other value overrides it
+    );
+
+    \assert($response instanceof GetPostResponse);
+
+    return $response;
+}
+```
+
+The same `Action`/`Mapper`/`Response` and YAML config serve every host — `baseUrl` only
+changes which server the configured path is sent to. Nothing is persisted, nothing is
+recompiled: it's resolved once, for that one call. The integration has no idea what the
+`$host` value represents (tenant domain, regional mirror, ...) — that decision belongs to
+the caller, never to the bundle.
+
+### Endpoints
+
+| Method | URL | Description |
+|---|---|---|
+| `GET` | `/engine/posts/{id}` | Uses the configured `base_url` (jsonplaceholder.typicode.com) |
+| `GET` | `/engine/posts/{id}?host=https://my-json-server.typicode.com/typicode/demo` | Same action, different host, for this request only |
+
+### Key files
+
+```
+Infrastructure/Integrations/Posts/
+├── Posts.yaml
+├── PostsIntegration.php          ← forwards $host to send(baseUrl: ...)
+├── Dto/Post.php
+└── GetPost/{Request,Response}/
+Infrastructure/PostsGateway.php   ← ACL: integration DTO → Domain\Post
+```
+
+---
+
 ## Testing
 
 ```bash
@@ -380,22 +437,26 @@ src/Engine/
 ├── Domain/
 │   ├── Employee.php
 │   ├── Character.php
-│   └── ArtistProfile.php
+│   ├── ArtistProfile.php
+│   └── Post.php
 │
 ├── Application/
 │   └── Ports/
 │       ├── DummyRestApi/    ← HTTP entry points: GetEmployee, CreateEmployee, DeleteEmployee…
 │       ├── RickAndMorty/    ← HTTP entry points: GetCharacter, GetManyCharacters
-│       └── Spotify/         ← HTTP entry points: GetArtistProfile
+│       ├── Spotify/         ← HTTP entry points: GetArtistProfile
+│       └── Posts/           ← HTTP entry points: GetPost (?host= overrides base_url)
 │
 └── Infrastructure/
     ├── DummyRestApiGateway.php    ← ACL
     ├── RickAndMortyGateway.php    ← ACL
     ├── SpotifyGateway.php         ← ACL
+    ├── PostsGateway.php           ← ACL
     └── Integrations/
         ├── DummyRestApi/
         ├── RickAndMorty/
-        └── Spotify/
+        ├── Spotify/
+        └── Posts/
 ```
 
 **Ports** depend only on domain objects. **Gateways** are the only classes that know both integration DTOs and domain objects — the Anti-Corruption Layer. **Integrations** are self-contained: no domain imports, no application logic.
